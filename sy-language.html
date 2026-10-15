@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SY — one language, the best of every language</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-body:'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono:'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+
+  --bg:#0a0f1a;
+  --bg-grid:rgba(96,165,250,0.055);
+  --surface:#111a2b;
+  --surface-elevated:#16223a;
+  --surface-recessed:#0c1422;
+  --border:rgba(255,255,255,0.08);
+  --border-bright:rgba(255,255,255,0.16);
+  --text:#e6edf3;
+  --text-dim:#8ea0b8;
+
+  --core:#38bdf8;      --core-dim:rgba(56,189,248,0.12);
+  --default:#2dd4bf;   --default-dim:rgba(45,212,191,0.12);
+  --control:#fbbf24;   --control-dim:rgba(251,191,36,0.12);
+  --ext:#34d399;       --ext-dim:rgba(52,211,153,0.12);
+  --warn:#f87171;      --warn-dim:rgba(248,113,113,0.12);
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f4f7fb;
+    --bg-grid:rgba(30,58,95,0.06);
+    --surface:#ffffff;
+    --surface-elevated:#ffffff;
+    --surface-recessed:#eef3f9;
+    --border:rgba(15,30,55,0.10);
+    --border-bright:rgba(15,30,55,0.20);
+    --text:#12203a;
+    --text-dim:#5a6b85;
+    --core:#0369a1;      --core-dim:rgba(3,105,161,0.10);
+    --default:#0d9488;   --default-dim:rgba(13,148,136,0.10);
+    --control:#b45309;   --control-dim:rgba(180,83,9,0.10);
+    --ext:#047857;       --ext-dim:rgba(4,120,87,0.10);
+    --warn:#b91c1c;      --warn-dim:rgba(185,28,28,0.09);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--text);
+  background-color:var(--bg);
+  background-image:
+    linear-gradient(var(--bg-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px),
+    radial-gradient(ellipse 70% 45% at 50% -5%, var(--core-dim), transparent 70%);
+  background-size:34px 34px, 34px 34px, 100% 100%;
+  background-attachment:fixed;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 96px}
+a{color:var(--core);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- HERO ---------- */
+.hero{padding:88px 0 44px;position:relative}
+.hero__kicker{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--core);display:flex;align-items:center;gap:10px;margin-bottom:22px;
+}
+.hero__kicker::before{content:'';width:26px;height:1px;background:var(--core)}
+.hero h1{
+  font-size:clamp(44px,7vw,80px);line-height:0.98;margin:0 0 8px;
+  font-weight:700;letter-spacing:-2px;
+}
+.hero h1 .sub{
+  display:block;font-size:clamp(15px,2vw,19px);font-weight:500;letter-spacing:0;
+  color:var(--text-dim);margin-top:18px;max-width:640px;line-height:1.55;
+}
+.hero__rule{
+  margin-top:34px;display:inline-flex;flex-wrap:wrap;gap:10px;
+}
+.chip{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:0.4px;
+  padding:7px 13px;border-radius:999px;border:1px solid var(--border-bright);
+  background:var(--surface);color:var(--text-dim);
+}
+.chip b{color:var(--text);font-weight:600}
+.chip--def{border-color:var(--default);color:var(--default);background:var(--default-dim)}
+.chip--ctl{border-color:var(--control);color:var(--control);background:var(--control-dim)}
+
+/* ---------- SECTIONS ---------- */
+section{margin-top:76px;scroll-margin-top:24px}
+.section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:26px}
+.section-num{
+  font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--core);
+  border:1px solid var(--core);border-radius:6px;padding:3px 9px;letter-spacing:1px;
+  flex:none;
+}
+.section-head h2{font-size:clamp(24px,3.4vw,34px);margin:0;font-weight:700;letter-spacing:-0.6px;line-height:1.1}
+.section-head p{margin:0;color:var(--text-dim);font-size:15px;flex:1;min-width:0}
+
+.lead{font-size:clamp(17px,2.1vw,20px);line-height:1.65;color:var(--text);max-width:820px}
+.lead strong{color:var(--core);font-weight:600}
+p.body{color:var(--text-dim);max-width:820px;font-size:15.5px}
+
+/* ---------- CARDS ---------- */
+.ve-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:20px 22px;position:relative;min-width:0;
+}
+.ve-card--elevated{background:var(--surface-elevated);box-shadow:0 3px 14px rgba(0,0,0,0.22)}
+.ve-card--hero{
+  background:linear-gradient(180deg, color-mix(in srgb, var(--surface-elevated) 88%, var(--core) 12%), var(--surface));
+  border-color:color-mix(in srgb, var(--border) 40%, var(--core) 60%);
+  box-shadow:0 6px 30px rgba(0,0,0,0.30);
+}
+.ve-card__label{
+  font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:1.6px;
+  text-transform:uppercase;color:var(--core);margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.ve-card__label::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+
+/* two-lane idea block */
+.idea-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+.lane{border-radius:12px;padding:20px 22px;border:1px solid var(--border);min-width:0}
+.lane--def{background:var(--default-dim);border-color:color-mix(in srgb,var(--border) 40%,var(--default) 60%)}
+.lane--ctl{background:var(--control-dim);border-color:color-mix(in srgb,var(--border) 40%,var(--control) 60%)}
+.lane h3{margin:0 0 6px;font-size:16px;display:flex;align-items:center;gap:9px}
+.lane--def h3{color:var(--default)}
+.lane--ctl h3{color:var(--control)}
+.lane h3 .dot{width:10px;height:10px;border-radius:50%;background:currentColor;flex:none}
+.lane p{margin:0;font-size:14px;color:var(--text-dim)}
+.lane p b{color:var(--text);font-weight:600}
+
+/* ---------- MERMAID ---------- */
+.diagram-shell{position:relative;margin-top:8px}
+.mermaid-wrap{
+  position:relative;background:var(--surface-recessed);border:1px solid var(--border);
+  border-radius:14px;padding:26px 20px;overflow:hidden;
+}
+.zoom-controls{
+  position:absolute;top:12px;right:12px;display:flex;gap:6px;z-index:5;
+}
+.zoom-controls button{
+  font-family:var(--font-mono);font-size:14px;line-height:1;width:30px;height:30px;
+  border:1px solid var(--border-bright);background:var(--surface);color:var(--text);
+  border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .15s,color .15s;
+}
+.zoom-controls button:hover{background:var(--core);color:var(--bg);border-color:var(--core)}
+.mermaid-viewport{overflow:hidden;cursor:grab;display:flex;justify-content:center}
+.mermaid-viewport.dragging{cursor:grabbing}
+.mermaid-canvas{transform-origin:0 0;transition:transform .12s ease-out;will-change:transform}
+.mermaid{display:flex;justify-content:center}
+.mermaid svg{max-width:none !important;height:auto}
+.mermaid .nodeLabel{color:var(--text) !important;font-family:var(--font-body) !important;font-size:15px !important}
+.mermaid .edgeLabel{color:var(--text-dim) !important;background-color:var(--surface-recessed) !important;font-family:var(--font-mono) !important;font-size:12px !important}
+.mermaid .edgeLabel rect{fill:var(--surface-recessed) !important}
+.mermaid .node rect,.mermaid .node circle,.mermaid .node polygon{stroke-width:1.5px}
+
+/* ---------- TABLE ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+thead th{
+  position:sticky;top:0;background:var(--surface-elevated);text-align:left;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--text-dim);font-weight:600;padding:14px 16px;border-bottom:1px solid var(--border-bright);
+}
+tbody td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:color-mix(in srgb, var(--surface) 92%, var(--core) 8%)}
+tbody tr:hover{background:color-mix(in srgb, var(--surface) 85%, var(--core) 15%)}
+td .lvl{font-family:var(--font-mono);font-weight:600;color:var(--text);font-size:13.5px}
+td .lvl small{display:block;color:var(--text-dim);font-weight:400;font-size:11px;letter-spacing:0.5px;margin-top:3px}
+td.src{color:var(--text-dim);font-size:13px}
+td.src b{color:var(--text);font-weight:600}
+td.def{color:var(--text);font-size:13.5px}
+td.def::before,td.ctl::before{
+  content:'';display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;vertical-align:middle;
+}
+td.def::before{background:var(--default)}
+td.ctl::before{background:var(--control)}
+td.ctl{color:var(--text);font-size:13.5px}
+code{font-family:var(--font-mono);font-size:0.88em;background:color-mix(in srgb,var(--surface-elevated) 70%,var(--core) 30%);padding:1px 6px;border-radius:5px;color:var(--text)}
+
+/* ---------- LEVEL CARDS ---------- */
+.ideas{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
+.idea{border:1px solid var(--border);border-radius:12px;padding:16px;background:var(--surface-elevated);min-width:0}
+.idea .n{font-family:var(--font-mono);font-size:12px;color:var(--core);font-weight:600}
+.idea h4{margin:8px 0 6px;font-size:15px}
+.idea p{margin:0;font-size:12.5px;color:var(--text-dim)}
+.lvlgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:8px}
+.lvl-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;min-width:0;border-top:3px solid var(--core)}
+.lvl-card .tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--core);font-weight:600}
+.lvl-card h4{margin:6px 0 4px;font-size:17px;font-weight:600;letter-spacing:-0.2px}
+.lvl-card .from{font-size:12.5px;color:var(--text-dim);margin:0 0 14px;font-style:italic}
+.lvl-card .row{display:flex;gap:10px;font-size:13.5px;margin-top:9px;align-items:flex-start}
+.lvl-card .row .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.8px;text-transform:uppercase;flex:none;padding-top:2px;width:58px}
+.lvl-card .row.d .k{color:var(--default)}
+.lvl-card .row.c .k{color:var(--control)}
+.lvl-card .row .v{color:var(--text-dim);min-width:0}
+.lvl-card .row .v b{color:var(--text);font-weight:600}
+
+/* ---------- CODE ---------- */
+.code-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+.code-file{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface-recessed);min-width:0}
+.code-file__header{
+  display:flex;align-items:center;gap:9px;padding:11px 16px;background:var(--surface-elevated);
+  border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:11.5px;letter-spacing:0.5px;
+}
+.code-file__header .d{width:9px;height:9px;border-radius:50%;flex:none}
+.code-file--def .code-file__header{color:var(--default)}
+.code-file--def .code-file__header .d{background:var(--default)}
+.code-file--ctl .code-file__header{color:var(--control)}
+.code-file--ctl .code-file__header .d{background:var(--control)}
+.code-file__body{
+  font-family:var(--font-mono);font-size:12.5px;line-height:1.62;padding:16px 18px;
+  white-space:pre-wrap;word-break:break-word;overflow-x:auto;max-height:520px;color:var(--text);
+}
+.code-file__body .cmt{color:var(--text-dim)}
+.code-file__body .kw{color:var(--core)}
+.code-file__body .dec{color:var(--control)}
+
+/* ---------- CALLOUT ---------- */
+.callout{
+  border-radius:12px;padding:22px 24px;margin-top:26px;border:1px solid var(--border);
+  background:linear-gradient(180deg,var(--core-dim),transparent);border-left:3px solid var(--core);
+}
+.callout h3{margin:0 0 8px;font-size:17px;color:var(--core);display:flex;align-items:center;gap:9px}
+.callout p{margin:0;color:var(--text-dim);font-size:14.5px;max-width:820px}
+.callout p b{color:var(--text)}
+.callout--warn{background:linear-gradient(180deg,var(--warn-dim),transparent);border-left-color:var(--warn)}
+.callout--warn h3{color:var(--warn)}
+
+/* seams */
+.seams{display:grid;grid-template-columns:1fr;gap:16px;margin-top:22px}
+.seam{border-radius:12px;border:1px solid var(--border);background:var(--surface);padding:20px 22px;border-left:3px solid var(--core);min-width:0}
+.seam h4{margin:0 0 10px;font-size:17px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.seam .seam-tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--core);font-weight:600}
+.seam .verdict{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid currentColor;margin-left:auto}
+.v-keep{color:var(--default)}
+.v-caveat{color:var(--control)}
+.seam p{margin:8px 0 0;font-size:14px;color:var(--text-dim);max-width:880px}
+.seam p b{color:var(--text)}
+.seam .left{border-left:2px solid var(--control);padding-left:12px;margin-top:12px;font-size:13.5px;color:var(--text-dim)}
+.seam .left b{color:var(--control)}
+.seam--t{border-left-color:var(--control)}
+.seam--t .seam-tag{color:var(--control)}
+
+/* contents nav */
+.toc{margin:16px 0 4px;border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:20px 24px}
+.toc__label{font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+.toc__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px 30px}
+.toc__grid a{display:flex;gap:12px;align-items:baseline;text-decoration:none;color:var(--text);font-size:13.5px;padding:6px 0;min-width:0}
+.toc__grid a:hover{color:var(--core)}
+.toc__grid a span{font-family:var(--font-mono);font-size:11px;color:var(--core);flex:none;width:20px}
+@media (max-width:720px){.toc__grid{grid-template-columns:1fr}}
+
+footer{margin-top:70px;padding-top:26px;border-top:1px solid var(--border);color:var(--text-dim);font-size:13px;font-family:var(--font-mono);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+@media (max-width:760px){
+  .idea-grid,.lvlgrid,.code-pair,.ideas{grid-template-columns:1fr}
+  .wrap{padding:0 18px 72px}
+  .hero{padding:56px 0 30px}
+}
+@media (prefers-reduced-motion:reduce){
+  .mermaid-canvas{transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero__kicker">A synthesis design · working title</div>
+    <h1>SY
+      <span class="sub">One general-purpose language that absorbs the best proven ideas from every language that came before it — at every axis — without collapsing into a kitchen sink.</span>
+    </h1>
+        <div class="hero__rule">
+      <span class="chip"><b>4</b> ideas</span>
+      <span class="chip"><b>7</b> core forms</span>
+      <span class="chip"><b>1</b> engine</span>
+      <span class="chip"><b>2</b> edges</span>
+      <span class="chip"><b>1</b> boundary</span>
+    </div>
+  </header>
+
+      <nav class="toc" aria-label="Contents">
+    <div class="toc__label">Contents</div>
+    <div class="toc__grid">
+      <a href="#ideas"><span>01</span>SY in four ideas</a>
+      <a href="#structure"><span>02</span>The structure</a>
+      <a href="#core"><span>03</span>The core: seven forms</a>
+      <a href="#problem"><span>04</span>The paradox</a>
+      <a href="#idea"><span>05</span>Defaults & escape hatches</a>
+      <a href="#matrix"><span>06</span>The seven axes</a>
+      <a href="#detail"><span>07</span>The axes in detail</a>
+      <a href="#seams"><span>08</span>The edges</a>
+      <a href="#decisions"><span>09</span>Unavoidable decisions</a>
+      <a href="#coherence"><span>10</span>The one rule</a>
+      <a href="#spine"><span>11</span>The effect-spine</a>
+      <a href="#masking"><span>12</span>Local effect masking</a>
+      <a href="#guarantees"><span>13</span>The invariants</a>
+      <a href="#direct"><span>14</span>The foreign boundary</a>
+      <a href="#problems"><span>15</span>Open problems</a>
+    </div>
+  </nav>
+
+  <!-- IDEAS -->
+  <section id="ideas">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <div><h2>SY in four ideas</h2></div>
+    </div>
+    <p class="lead">Strip the presentation away and SY is <strong>four ideas</strong> plus one boundary. Everything else in this document — the axes, the lanes, the edges, the mechanisms — is how those four are chosen, presented, and made to hold.</p>
+    <div class="ideas">
+      <div class="idea"><div class="n">01</div><h4>A strict, immutable core</h4><p>Strictness is not incidental — it is what makes references point backward and pure data acyclic.</p></div>
+      <div class="idea"><div class="n">02</div><h4>One effect mechanism</h4><p>Row-polymorphic effects and handlers absorb I/O, mutation, errors and concurrency.</p></div>
+      <div class="idea"><div class="n">03</div><h4>One memory model</h4><p>Perceus exact reference counting, with scoped regions for the cycles strictness cannot exclude.</p></div>
+      <div class="idea"><div class="n">04</div><h4>One foreign boundary</h4><p>FFI at the edge, and nowhere else. Everything inside stays coherent.</p></div>
+    </div>
+    <div class="callout">
+      <h3>And one uniform core</h3>
+      <p>All four rest on a single small AST — <b>seven forms</b>: <code>Var · Lit · Lam · App · Let · Case · Handle</code>. Every surface form lowers to these, and every mechanism operates on them.</p>
+    </div>
+  </section>
+
+  <!-- STRUCTURE -->
+  <section id="structure">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <div><h2>The structure</h2></div>
+    </div>
+    <p class="lead">SY is <strong>layered</strong>: a small uniform core, three engines that operate on it, a runtime beneath, and one deliberate boundary at the edge. Everything above the core is surface; everything below is mechanism.</p>
+    <div class="diagram-shell">
+      <div class="mermaid-wrap">
+        <div class="zoom-controls">
+          <button type="button" data-zoom="out" title="Zoom out">−</button>
+          <button type="button" data-zoom="in" title="Zoom in">+</button>
+          <button type="button" data-zoom="reset" title="Reset">⤾</button>
+          <button type="button" data-zoom="expand" title="Open full size">⛶</button>
+        </div>
+        <div class="mermaid-viewport">
+          <div class="mermaid-canvas">
+            <pre class="mermaid">
+flowchart TD
+  SURF["Surface syntax · two lanes<br/>Default · Control"]:::lane
+  CORE["Core AST · seven forms<br/>Var · Lit · Lam · App · Let · Case · Handle"]:::core
+  TC["Type checker<br/>HM · bidirectional · effect rows"]:::engine
+  ES["Effect-spine · the engine<br/>I/O · mutation · errors · concurrency"]:::engine
+  PC["Memory · Perceus RC + regions<br/>exact RC · arenas for cycles"]:::engine
+  RT["Lowering / runtime"]:::plain
+  FFI["FFI boundary<br/>Python · Rust · C · ..."]:::ffi
+
+  SURF --> CORE
+  CORE --> TC
+  CORE --> ES
+  CORE --> PC
+  TC --> RT
+  ES --> RT
+  PC --> RT
+  RT -.->|reaches out| FFI
+
+  classDef lane fill:#2dd4bf33,stroke:#2dd4bf,stroke-width:2px
+  classDef core fill:#38bdf833,stroke:#38bdf8,stroke-width:2px
+  classDef engine fill:#fbbf2433,stroke:#fbbf24,stroke-width:2px
+  classDef plain fill:#94a3b822,stroke:#94a3b8,stroke-width:1.5px
+  classDef ffi fill:#f8717133,stroke:#f87171,stroke-width:2px
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE -->
+  <section id="core">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <div><h2>The core: seven forms</h2></div>
+    </div>
+    <p class="lead">Everything the compiler does — type checking, reference counting, effect handling — operates on one tiny, uniform AST. Seven forms, each irreducible for at least one of the three consumers. The core is, quite literally, <strong>the lambda calculus, plus <code>Case</code>, plus <code>Handle</code>.</strong></p>
+
+    <div class="diagram-shell">
+      <div class="mermaid-wrap">
+        <div class="zoom-controls">
+          <button type="button" data-zoom="out" title="Zoom out">−</button>
+          <button type="button" data-zoom="in" title="Zoom in">+</button>
+          <button type="button" data-zoom="reset" title="Reset">⤾</button>
+          <button type="button" data-zoom="expand" title="Open full size">⛶</button>
+        </div>
+        <div class="mermaid-viewport">
+          <div class="mermaid-canvas">
+            <pre class="mermaid">
+flowchart TD
+  SURF["Surface syntax · Axis 1"]:::alt
+  CORE["SY core<br/>Var · Lit · Lam · App · Let · Case · Handle"]:::core
+  TC["Type checker<br/>HM · bidirectional · effect rows"]:::alt
+  PC["Perceus pass<br/>refcount · in-place reuse"]:::alt
+  ES["Effect-spine<br/>handlers · arenas"]:::alt
+
+  SURF -->|desugars to| CORE
+  CORE --> TC
+  CORE --> PC
+  CORE --> ES
+
+  classDef core fill:#38bdf833,stroke:#38bdf8,stroke-width:2px
+  classDef alt fill:#94a3b822,stroke:#94a3b8,stroke-width:1.5px
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-file code-file--def" style="margin-top:22px">
+      <div class="code-file__header"><span class="d"></span>the seven primitive forms</div>
+      <pre class="code-file__body">Var    x
+Lit    k                       <span class="cmt">-- unboxed machine literal</span>
+Lam    [tys][effs](xs) -&gt; e    <span class="cmt">-- closure; type- and effect-polymorphic</span>
+App    f [tys][effs](args)     <span class="cmt">-- instantiation; also how effects are performed</span>
+Let    [rec] x = e1 in e2      <span class="cmt">-- sharing, sequencing, let-generalization</span>
+Case   e { p1 -&gt; e1 ; ... }    <span class="cmt">-- the eliminator: pattern match</span>
+Handle e { op(x,k) -&gt; h ; ret(x) -&gt; r }   <span class="cmt">-- the effect primitive</span></pre>
+    </div>
+
+    <p class="body" style="margin-top:26px;margin-bottom:16px">Each form earns its place by being irreducible for one of the three consumers:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:16%">Form</th><th style="width:28%">Type checker</th><th style="width:28%">Perceus</th><th style="width:28%">Effect-spine</th></tr></thead>
+        <tbody>
+          <tr><td><span class="lvl">Var</span></td><td class="src">name lookup</td><td class="src">a use → refcount +1; last-use analysis</td><td class="src">—</td></tr>
+          <tr><td><span class="lvl">Lit</span></td><td class="src">base type</td><td class="src">unboxed, never refcounted</td><td class="src">—</td></tr>
+          <tr><td><span class="lvl">Lam</span></td><td class="src">generalization (∀ types)</td><td class="src">capture set = refcount edge set</td><td class="src">latent effect row lives here</td></tr>
+          <tr><td><span class="lvl">App</span></td><td class="src">instantiation</td><td class="src">ownership transfer (borrow vs own)</td><td class="src">callee's row joins caller's</td></tr>
+          <tr><td><span class="lvl">Let</span></td><td class="src"><b>let-generalization</b> — the only place HM generalizes</td><td class="src">ownership root; reuse fires here</td><td class="src">sequencing</td></tr>
+          <tr><td><span class="lvl">Case</span></td><td class="src">branch point for refinements / bounds</td><td class="src">deconstruct = consume or project</td><td class="src">handler clause dispatch</td></tr>
+          <tr><td><span class="lvl">Handle</span></td><td class="src">row algebra: residual = row(e) − handled</td><td class="src">arena/scope boundary, bulk-freed on discharge</td><td class="src"><b>the primitive itself</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>What is deliberately not a form</h3>
+      <p><b>Constructors</b> are first-class values — <code>Cons(1, Nil)</code> is <code>App(App(Var Cons, Lit 1), Var Nil)</code>. <b>Performing an effect</b> is an <code>App</code>. <b><code>if</code>, <code>match</code>, <code>while</code>, <code>for</code>, <code>do</code></b> are all <code>Case</code> and <code>Let</code>. <b>Type and effect abstraction</b> are parameters on <code>Lam</code> and <code>App</code>. That uniformity is what makes Axis 1 (surface) and Axis 6 (macros) cheap — every surface construct is a macro over these seven.</p>
+    </div>
+
+    <div class="callout callout--warn">
+      <h3>The five-form floor</h3>
+      <p>Fold <code>Lit</code> into nullary constructors and reduce <code>Let</code> to <code>Lam</code> applied to its argument, and you reach the theoretical minimum of <b>five</b>. But both earn their keep: <code>Let</code> is the <i>only</i> place let-generalization happens — kill it and HM inference breaks — and <code>Lit</code> is how unboxed primitives avoid the heap. Seven is the honest count; five is the floor.</p>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <div><h2>The paradox we have to beat</h2></div>
+    </div>
+    <p class="lead">Every great language is great partly for what it <strong>refuses</strong> to do. So "take the best of all of them" sounds like it should produce the ultimate language — and instead it produces PL/I. The features are not a menu; they are <strong>entangled</strong>, and the whole has a coherence the parts don't.</p>
+    <div class="callout callout--warn">
+      <h3>The kitchen-sink failure</h3>
+      <p>Adding Haskell's type inference <b>and</b> Python's dynamic ease <b>and</b> C's machine closeness doesn't give you the union of their strengths — it gives you the <b>union of their costs</b>, plus a coherence problem. The design has to resolve the tension, not ignore it.</p>
+    </div>
+    <div class="callout">
+      <h3>A boundary we accept, stated up front</h3>
+      <p>SY is a <b>strict</b> language. That excludes laziness — a genuinely great idea from Haskell — so SY is not literally "the best of <i>every</i> language" but the best of the <b>strict</b> ones. This is a deliberate line, not an oversight: strictness is exactly what makes the DAG memory guarantee hold (§08). Naming the boundary is part of the design, not a footnote to it.</p>
+    </div>
+  </section>
+
+  <!-- IDEA -->
+  <section id="idea">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <div><h2>The surface: defaults and escape hatches</h2></div>
+    </div>
+    <p class="lead">The two lanes are not architecture — they are <strong>ergonomics</strong>: a safe default plus an opt-in escape hatch at every axis. That is a normal design fact (every language has advanced features you choose), stated plainly instead of dressed up as a structure. The escape hatches are real; the framing is now honest about what they are.</p>
+    <div class="idea-grid">
+      <div class="lane lane--def">
+        <h3><span class="dot"></span>Default lane</h3>
+        <p>The curated best practice at this axis. <b>Safe, readable, inferred, immutable, structured.</b> A beginner writes the right thing by accident. This is the museum's curation.</p>
+      </div>
+      <div class="lane lane--ctl">
+        <h3><span class="dot"></span>Control lane</h3>
+        <p>The proven full-power option at this axis. <b>Explicit, owned, unscoped, raw.</b> Opt-in, locally scoped, never silently changes the guarantees of the code around it. This is the workshop's reach.</p>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:0;margin-bottom:18px">The everyday lane on the left; the same constructs pushed to the metal on the right. You move between them deliberately, never by accident.</p>
+    <div class="code-pair">
+      <div class="code-file code-file--def">
+        <div class="code-file__header"><span class="d"></span>default lane · everyday code</div>
+        <pre class="code-file__body"><span class="cmt"># types inferred · values immutable · concurrency structured</span>
+<span class="kw">fn</span> average(xs) =
+  sum(xs) / count(xs)
+
+<span class="kw">data</span> Shape = Circle(radius: Float) | Rect(w: Float, h: Float)
+
+<span class="kw">fn</span> area(s: Shape) = <span class="kw">match</span> s
+  Circle(r) -&gt; pi * r * r
+  Rect(w, h) -&gt; w * h
+
+<span class="cmt"># tasks cannot outlive their scope — no orphan threads</span>
+<span class="kw">fn</span> fetch_all(urls) = <span class="kw">scope</span>
+  urls |&gt; map(<span class="kw">fn</span> u -&gt; async fetch(u)) |&gt; join</pre>
+      </div>
+      <div class="code-file code-file--ctl">
+        <div class="code-file__header"><span class="d"></span>control lane · when you mean it</div>
+        <pre class="code-file__body"><span class="cmt"># same language — opt in when you need the metal</span>
+
+<span class="cmt"># explicit ownership: zero-cost, deterministic</span>
+<span class="kw">fn</span> consume(<span class="dec">own</span> buf: Buffer) -&gt; Report = ...
+
+<span class="cmt"># escape structured concurrency, deliberately</span>
+<span class="dec">@unscoped</span> spawn background_worker()
+
+<span class="cmt"># run any function at compile time to generate code</span>
+<span class="dec">comptime</span> <span class="kw">fn</span> accessors(fields) =
+  fields |&gt; map(<span class="kw">fn</span> f -&gt; "fn get_" &lt;&gt; f &lt;&gt; "() = self." &lt;&gt; f)
+
+<span class="cmt"># raw memory, arenas, pointers when you want them</span>
+<span class="dec">unsafe</span>:
+  <span class="kw">let</span> p = alloc&lt;Int&gt;(4096)</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATRIX -->
+  <section id="matrix">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <div><h2>The seven axes</h2></div>
+    </div>
+    <p class="body" style="margin-top:0;margin-bottom:20px">These seven are not SY's architecture — they are the checklist the method works through. Every language must decide each axis; SY's answers are below.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th style="width:20%">Axis</th><th style="width:24%">Best of history</th><th style="width:28%">Default</th><th style="width:28%">Control</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="lvl">0 · Extensibility<small>the meta-axis</small></span></td>
+            <td class="src"><b>Racket</b> <code>#lang</code>, <b>Forth</b></td>
+            <td class="def">A small orthogonal core you can grow.</td>
+            <td class="ctl">A file can declare itself a new language.</td>
+          </tr>
+          <tr>
+            <td><span class="lvl">1 · Syntax<small>how you write it</small></span></td>
+            <td class="src"><b>Lisp</b> homoiconicity, <b>Python</b> readability</td>
+            <td class="def">Readable, low-noise surface syntax.</td>
+            <td class="ctl">Uniform core form (S-expr / AST) always reachable.</td>
+          </tr>
+          <tr>
+            <td><span class="lvl">2 · Types<small>what's checked</small></span></td>
+            <td class="src"><b>ML / Haskell</b> inference</td>
+            <td class="def">Infer everything, check statically, no annotations.</td>
+            <td class="ctl"><code>dyn</code> escape, <b>gradual</b> refinements (comptime, not SMT).</td>
+          </tr>
+          <tr>
+            <td><span class="lvl">3 · Memory<small>who frees it</small></span></td>
+            <td class="src"><b>Rust</b> ownership, <b>Lisp/Java/Go</b> GC, <b>C</b> manual</td>
+            <td class="def">Automatic: <b>exact</b> reference counting — pure data is acyclic by construction. A cycle collector guards only the FFI boundary.</td>
+            <td class="ctl">Ownership/borrowing, raw pointers, arenas.</td>
+          </tr>
+          <tr>
+            <td><span class="lvl">4 · Concurrency<small>many at once</small></span></td>
+            <td class="src"><b>Erlang</b> actors, <b>Go</b> goroutines + channels</td>
+            <td class="def">Structured concurrency — scoped, joined, no orphans. <i>Carried as an effect in the spine.</i></td>
+            <td class="ctl">Actors, channels, deliberate unscoped spawn.</td>
+          </tr>
+          <tr>
+            <td><span class="lvl">5 · Paradigm<small>how you think</small></span></td>
+            <td class="src"><b>Haskell</b> FP, <b>C</b> imperative, <b>Smalltalk</b> OO, <b>Prolog</b> logic, <b>APL</b> arrays</td>
+            <td class="def">Functional core inside an imperative shell — the core is sealed by inferred effects.</td>
+            <td class="ctl">Logic sub-language, array/vector notation.</td>
+          </tr>
+          <tr>
+            <td><span class="lvl">6 · Metaprogramming<small>code that makes code</small></span></td>
+            <td class="src"><b>Lisp</b> macros, <b>Zig</b> comptime, reflection</td>
+            <td class="def">Hygienic macros over the uniform core.</td>
+            <td class="ctl">Compile-time codegen, runtime reflection.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="body" style="margin-top:18px">A note on the cut: these seven are a <b>chosen set, not the whole of language design</b>. A module system, error handling and effects are real axes too — error handling and concurrency are carried as effects in the spine (§11), and the two hardest edges are §08.</p>
+  </section>
+
+  <!-- DETAIL -->
+  <section id="detail">
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <div><h2>The axes in detail</h2></div>
+    </div>
+    <div class="lvlgrid">
+      <div class="lvl-card">
+        <div class="tag">Axis 0 · Extensibility</div>
+        <h4>The workshop under everything</h4>
+        <p class="from">Borrowed from Racket's #lang and Forth's tiny cores.</p>
+        <div class="row d"><span class="k">Default</span><span class="v">A small, orthogonal, complete core. Everything else is a library over it.</span></div>
+        <div class="row c"><span class="k">Control</span><span class="v">Any file can be a <b>new language</b> — new syntax and semantics layered on the core. The language becomes what you need.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Axis 1 · Syntax</div>
+        <h4>Readable surface, uniform core</h4>
+        <p class="from">Borrowed from Lisp's homoiconicity and Python's readability.</p>
+        <div class="row d"><span class="k">Default</span><span class="v">Low-noise surface syntax that reads like prose. No parentheses tax.</span></div>
+        <div class="row c"><span class="k">Control</span><span class="v">Every surface form maps to a <b>uniform core form</b>. Drop into it when you need macro power — the two views are always convertible.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Axis 2 · Types</div>
+        <h4>Inferred by default, refined on demand</h4>
+        <p class="from">Borrowed from ML / Haskell's Hindley–Milner inference.</p>
+        <div class="row d"><span class="k">Default</span><span class="v">Write untyped-looking code that is <b>fully statically checked</b>. No annotation ceremony.</span></div>
+        <div class="row c"><span class="k">Control</span><span class="v">A <code>dyn</code> escape for gradual typing, plus <b>gradual refinements</b> — checked at compile time by <code>comptime</code> evaluation, not by an external SMT solver.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Axis 3 · Memory</div>
+        <h4>Automatic by default, three gears available</h4>
+        <p class="from">Borrowed from Rust ownership, GC'd runtimes, and C's manual control.</p>
+        <div class="row d"><span class="k">Default</span><span class="v">You <b>never think about it</b>: arena allocation + <b>exact</b> reference counting — pure data is acyclic by construction. The cycle collector only guards the FFI boundary.</span></div>
+        <div class="row c"><span class="k">Control</span><span class="v">Opt into ownership/borrowing for deterministic, zero-cost control; raw pointers and arenas for systems work.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Axis 4 · Concurrency</div>
+        <h4>Structured by default, actors and channels underneath</h4>
+        <p class="from">Borrowed from Erlang's actors and Go's goroutines + channels.</p>
+        <div class="row d"><span class="k">Default</span><span class="v"><b>Structured concurrency</b>: every task is scoped and joined. No orphan threads, ever.</span></div>
+        <div class="row c"><span class="k">Control</span><span class="v">Actors (isolated, message-passing) and channels (dataflow) as primitives; <code>@unscoped spawn</code> when you truly mean it.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Axis 5 · Paradigm</div>
+        <h4>Everything is a value or a function</h4>
+        <p class="from">Borrowed from Haskell, C, Smalltalk, Prolog, and APL.</p>
+        <div class="row d"><span class="k">Default</span><span class="v">A <b>functional core</b> — pure values, immutable data — inside an <b>imperative shell</b>. Objects are namespaced interfaces, not a separate system. The core is <b>sealed</b>: purity is inferred, and pure code cannot <b>leak</b> effects outward (it may use them internally — see §12).</span></div>
+        <div class="row c"><span class="k">Control</span><span class="v">A query/logic sub-language for relational problems, and array/vectorized notation for data. The paradigms become libraries, not worldviews.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Axis 6 · Metaprogramming</div>
+        <h4>Macros and compile-time execution, unified</h4>
+        <p class="from">Borrowed from Lisp macros, Zig's comptime, and runtime reflection.</p>
+        <div class="row d"><span class="k">Default</span><span class="v">Hygienic macros over the uniform core form — extension without capture bugs.</span></div>
+        <div class="row c"><span class="k">Control</span><span class="v"><b>Compile-time execution</b>: any function can run at compile time to generate code; reflection covers the runtime lane.</span></div>
+      </div>
+      <div class="lvl-card" style="border-top-color:var(--ext)">
+        <div class="tag" style="color:var(--ext)">The payoff</div>
+        <h4>Why this isn't a kitchen sink</h4>
+        <p class="from">Coherence is the whole trick.</p>
+        <div class="row d"><span class="k">Rule</span><span class="v">The defaults across all axes are chosen as <b>one mutually consistent set</b>: inferred types + immutable values + structured concurrency + a pure core. They reinforce instead of collide.</span></div>
+        <div class="row c"><span class="k">Rule</span><span class="v">The control lane is <b>opt-in and locally scoped</b>. Using it never silently changes the guarantees of code that doesn't.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEAMS -->
+  <section id="seams">
+    <div class="section-head">
+      <span class="section-num">08</span>
+      <div><h2>The edges: where the lanes meet</h2></div>
+    </div>
+    <p class="lead">Stating "two lanes" is easy. The hard part is the <strong>edge</strong> — what happens when data crosses from one lane into the other. Two proposed bridges hold up; each still leaves an honest leftover.</p>
+    <div class="diagram-shell">
+      <div class="mermaid-wrap">
+        <div class="zoom-controls">
+          <button type="button" data-zoom="out" title="Zoom out">−</button>
+          <button type="button" data-zoom="in" title="Zoom in">+</button>
+          <button type="button" data-zoom="reset" title="Reset">⤾</button>
+          <button type="button" data-zoom="expand" title="Open full size">⛶</button>
+        </div>
+        <div class="mermaid-viewport">
+          <div class="mermaid-canvas">
+            <pre class="mermaid">
+flowchart TD
+  DEF["Default lane<br/>automatic RC · inferred types · pure core"]:::def
+  CTL["Control lane<br/>own / raw · gradual refinements"]:::ctl
+  SA["Edge A · Memory<br/>Perceus RC unifies both lanes"]:::seam
+  SB["Edge B · Types<br/>bidirectional checking wraps HM"]:::seam
+
+  DEF --- SA
+  CTL --- SA
+  DEF --- SB
+  CTL --- SB
+
+  classDef def fill:#2dd4bf33,stroke:#2dd4bf,stroke-width:2px
+  classDef ctl fill:#fbbf2433,stroke:#fbbf24,stroke-width:2px
+  classDef seam fill:#38bdf833,stroke:#38bdf8,stroke-width:2px
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="seams">
+      <div class="seam">
+        <h4><span class="seam-tag">Edge A · Memory</span><span class="verdict v-keep">Shrink it</span></h4>
+        <p>If the default lane is already reference-counted, then <code>own</code>/borrowing isn't a second runtime — it's a <b>static discipline over the same one</b>. Perceus (from Koka) makes this concrete: the compiler tracks reference counts and, when the count is 1, <b>reuses the buffer in place</b> — which is what makes pure functional code fast instead of garbage-generating. The two lanes share one representation.</p>
+        <p>And the design closes most of the cycle hole on its own: in a <b>strict, immutable</b> core every value is fully built before it can be referenced, so references only point backward in construction order — a <b>DAG by definition</b>. Pure Default-lane data is therefore acyclic by construction, and Perceus is exact over it: no cycles to leak, no tracing needed.</p>
+        <p class="left"><b>What still needs care:</b> the guarantee is bought by <b>strictness</b>, not immutability alone — allow any lazy binding and cycles reappear. Recursive and mutually-recursive <b>closures</b> are the one pure exception and must be compiled as static/grouped edges, not heap self-pointers. And the FFI boundary is the new edge: foreign or GC'd code can inject cycles, so the tracing collector isn't deleted — it's <b>demoted to the boundary</b>, where it belongs.</p>
+      </div>
+      <div class="seam seam--t">
+        <h4><span class="seam-tag">Edge B · Types</span><span class="verdict v-caveat">Shrink it, honestly</span></h4>
+        <p>Hindley–Milner really does break once you add ad-hoc overloading, higher-rank types, and array broadcasting. Bidirectional checking (a <b>check</b> mode and an <b>infer</b> mode) is the standard fix — and it <b>wraps</b> HM rather than replacing it: infer bottom-up to make unification constraints, push an expected type top-down to guide them. Crucially, <b>check mode only switches on when you write a signature</b> — so unannotated code stays in pure HM and pays no annotation tax.</p>
+        <p class="left"><b>The honest limits:</b> higher-rank types and polymorphic recursion need signatures even in the default lane, because HM fundamentally cannot infer them. And refinements (tensor dimensions, index bounds) are made <b>gradual</b> rather than SMT-solved — self-hosted as <code>comptime</code> functions plus dimension unification: checked statically where the constraint is decidable, a single runtime check at the boundary where it isn't. That trades SMT-grade proof power for determinism and coherence — the right trade here, but a real one — and <code>comptime</code> refinement evaluation needs a termination budget, or a bad refinement can hang the compiler.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DECISIONS -->
+  <section id="decisions">
+    <div class="section-head">
+      <span class="section-num">09</span>
+      <div><h2>Every axis is an unavoidable decision</h2></div>
+    </div>
+    <p class="lead">A language cannot leave any axis unanswered. A dynamically-typed language still has a type system — "one universal type, checked at runtime." A language with no macros has made a metaprogramming decision: none. <strong>Silence is still an answer.</strong></p>
+    <div class="idea-grid">
+      <div class="lane lane--def">
+        <h3><span class="dot"></span>Foundational</h3>
+        <p>You <b>cannot build the language at all</b> without these — they're the substrate everything rests on: syntax &amp; semantics, evaluation, memory lifetime. Cannot be retrofitted later without breaking everything.</p>
+      </div>
+      <div class="lane lane--ctl">
+        <h3><span class="dot"></span>Additive</h3>
+        <p>The language works fine with the answer <b>"none"</b>: an explicit concurrency model, metaprogramming, extensibility, error handling. Rust without macros is still Rust. Once the effect-spine exists (§11), several of these — concurrency, errors — are simply <b>expressed as effects</b> rather than built as separate subsystems.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <h3>Why this makes the two-lane design total</h3>
+      <p>Because every axis is a decision, the design must hold a stance at <b>every</b> axis — even the ones it doesn't feature. The default lane is "the answer when you don't want to think about this axis"; the control lane is "the answer when you do." A axis with no stance is a axis decided <b>by accident</b> — exactly the failure we're avoiding.</p>
+    </div>
+  </section>
+
+  <!-- COHERENCE -->
+  <section id="coherence">
+    <div class="section-head">
+      <span class="section-num">10</span>
+      <div><h2>The one rule that holds it together</h2></div>
+    </div>
+    <div class="callout">
+      <h3>Coherence before coverage</h3>
+      <p>SY absorbs the best idea from each tradition <b>only where it can sit inside one consistent default world</b>. Everything else waits in the control lane. That single constraint is what separates a synthesis from a kitchen sink — and it means the design will always be able to say <b>"not yet"</b> to a good idea, which is exactly what the languages that survived did.</p>
+    </div>
+    <p class="body" style="margin-top:22px">The honest caveat: a language is not adopted on merit. Python won because it was already there. Any new language competes on ecosystem and inertia long before it competes on design — so SY's real test would be whether the small core and the <code>#lang</code> layer let a community grow it faster than the incumbents can absorb the same ideas.</p>
+  </section>
+
+  <!-- SPINE -->
+  <section id="spine">
+    <div class="section-head">
+      <span class="section-num">11</span>
+      <div><h2>The effect-spine</h2></div>
+    </div>
+    <p class="lead">The effect-spine is SY's engine. One mechanism — row-polymorphic effects and handlers — carries I/O, mutation, errors and concurrency, and it is what tells the compiler which functions are pure. That is what <strong>earns</strong> the memory guarantee, and why the spine is not a separate subsystem but the thing the whole design runs on.</p>
+    <div class="diagram-shell">
+      <div class="mermaid-wrap">
+        <div class="zoom-controls">
+          <button type="button" data-zoom="out" title="Zoom out">−</button>
+          <button type="button" data-zoom="in" title="Zoom in">+</button>
+          <button type="button" data-zoom="reset" title="Reset">⤾</button>
+          <button type="button" data-zoom="expand" title="Open full size">⛶</button>
+        </div>
+        <div class="mermaid-viewport">
+          <div class="mermaid-canvas">
+            <pre class="mermaid">
+flowchart TD
+  E1["I/O"]:::eff
+  E2["mutation"]:::eff
+  E3["throwing errors"]:::eff
+  E4["concurrency"]:::eff
+  SHELL["Imperative shell<br/>effectful"]:::shell
+  CORE["Functional core<br/>pure · effect-free · sealed"]:::core
+
+  E1 --> SHELL
+  E2 --> SHELL
+  E3 --> SHELL
+  E4 --> SHELL
+  SHELL ==>|"may call"| CORE
+  CORE -.->|"may not leak effects outward"| SHELL
+
+  classDef eff fill:#fbbf2433,stroke:#fbbf24,stroke-width:2px
+  classDef shell fill:#94a3b822,stroke:#94a3b8,stroke-width:1.5px
+  classDef core fill:#2dd4bf33,stroke:#2dd4bf,stroke-width:2px
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="idea-grid">
+      <div class="lane lane--def">
+        <h3><span class="dot"></span>The answer: infer it</h3>
+        <p>The compiler infers each function's effect from what it actually does — the union of its callees' effects. No annotations in the default lane. The <b>Default lane presents effect-free interfaces</b> — empty residual rows — and the compiler enforces that those interfaces cannot <b>leak</b> effects outward, so the core is <b>sealed by construction</b>, not by convention. (A body may still use effects internally and handle them — see §12.)</p>
+      </div>
+      <div class="lane lane--ctl">
+        <h3><span class="dot"></span>The payoff: one mechanism</h3>
+        <p>I/O, mutation, throwing errors, and concurrency are <b>all just effects</b> — one system instead of four. Error handling stops being an orphan; it's an effect like any other. This is Koka's model (row-polymorphic effect inference), the same lineage as the Perceus memory of Edge A.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <h3>Why this underwrites the memory guarantee</h3>
+      <p>SY can only promise "pure values are DAGs, so RC is exact, so the tracing collector stays at the boundary" if the compiler can <b>tell which functions are pure</b>. Purity inference isn't decoration on top of the memory model — the memory model <b>depends on it</b>. That's Axis 5 and Axis 3 reinforcing each other: the cleanest instance of coherence in the whole design.</p>
+    </div>
+    <div class="callout callout--warn">
+      <h3>The cost, stated honestly</h3>
+      <p>Inferred effects are harder to <b>diagnose</b>. When a function turns out impure, the cause is transitive — "effectful because of a call six axes down" — and clear messages for that are genuinely hard. So the recommendation is <b>inference + optional explicit effect signatures at boundaries + heavy investment in diagnostics</b>: infer by default, mark only when you want to pin a contract.</p>
+    </div>
+
+    <h3 style="font-size:19px;margin:34px 0 10px;letter-spacing:-0.3px;font-weight:600">What the spine carries</h3>
+    <div class="diagram-shell">
+      <div class="mermaid-wrap">
+        <div class="zoom-controls">
+          <button type="button" data-zoom="out" title="Zoom out">−</button>
+          <button type="button" data-zoom="in" title="Zoom in">+</button>
+          <button type="button" data-zoom="reset" title="Reset">⤾</button>
+          <button type="button" data-zoom="expand" title="Open full size">⛶</button>
+        </div>
+        <div class="mermaid-viewport">
+          <div class="mermaid-canvas">
+            <pre class="mermaid">
+flowchart TD
+  DEF["Default lane<br/>= the effect-free subset"]:::def
+  CTL["Control lane<br/>= where effects are introduced and handled"]:::ctl
+  SPINE["The effect-spine<br/>one mechanism: I/O · mutation · errors · concurrency"]:::core
+  RT["Runtime<br/>exact RC · lowering"]:::core
+
+  DEF --> SPINE
+  CTL --> SPINE
+  SPINE --> RT
+
+  classDef def fill:#2dd4bf33,stroke:#2dd4bf,stroke-width:2px
+  classDef ctl fill:#fbbf2433,stroke:#fbbf24,stroke-width:2px
+  classDef core fill:#38bdf833,stroke:#38bdf8,stroke-width:2px
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="body" style="margin-top:24px;margin-bottom:18px">Nothing about SY's structure changes. What changes is that the spine now <b>carries</b> several axes that used to stand alone:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:32%">Where the spine lands</th><th>What it absorbs</th></tr></thead>
+        <tbody>
+          <tr><td><span class="lvl">Axis 4 · Concurrency</span></td><td class="src">No separate model — <b>concurrency is an effect.</b></td></tr>
+          <tr><td><span class="lvl">Error handling</span></td><td class="src">No longer an orphan — <b>throwing is an effect</b> like any other.</td></tr>
+          <tr><td><span class="lvl">Axis 3 · Memory</span></td><td class="src">The exact-RC guarantee is <b>earned</b> by the spine: purity inference → DAG → exact RC.</td></tr>
+          <tr><td><span class="lvl">Axis 0 · Extensibility</span></td><td class="src">New <b>effects and handlers</b> become the extension mechanism.</td></tr>
+          <tr><td><span class="lvl">Axes 1–2 · Lanes</span></td><td class="src">The default lane is literally <b>the effect-free subset</b>; the control lane is where effects are handled.</td></tr>
+          <tr><td><span class="lvl">Axis 5 · Paradigm</span></td><td class="src">Everything is a <b>pure function until an effect is handled</b>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <h3>The division of labour</h3>
+      <p><b>The two lanes are the interface; the effect-spine is the engine.</b> The two lanes give the programmer a clean, annotation-light surface with an escape hatch at every axis; the spine gives the compiler one mechanism to power all of it. It was never a competing design — the spine is what makes SY's guarantees <b>real</b> rather than aspirational.</p>
+    </div>
+  </section>
+
+  <!-- MASKING -->
+  <section id="masking">
+    <div class="section-head">
+      <span class="section-num">12</span>
+      <div><h2>Local effect masking — and why it isn't a choke point</h2></div>
+    </div>
+    <p class="lead">The pure core can't <em>leak</em> effects outward — but should it be able to use them <em>internally</em>? Yes: a function may mutate locally, throw internally, or run local concurrency, as long as a handler <strong>discharges</strong> those effects before it returns. The payoff isn't just speed — it's that effects are handled <strong>where they arise</strong>, so nothing funnels through a single place.</p>
+
+    <p class="body" style="font-family:var(--font-mono);font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--warn);margin:26px 0 10px">The choke-point model — what we avoid</p>
+    <div class="diagram-shell">
+      <div class="mermaid-wrap">
+        <div class="zoom-controls">
+          <button type="button" data-zoom="out" title="Zoom out">−</button>
+          <button type="button" data-zoom="in" title="Zoom in">+</button>
+          <button type="button" data-zoom="reset" title="Reset">⤾</button>
+          <button type="button" data-zoom="expand" title="Open full size">⛶</button>
+        </div>
+        <div class="mermaid-viewport">
+          <div class="mermaid-canvas">
+            <pre class="mermaid">
+flowchart TD
+  F1["pure function"]:::pure
+  F2["pure function"]:::pure
+  F3["pure function"]:::pure
+  SHELL["one imperative shell, near main<br/>every effect must funnel here"]:::choke
+
+  F1 -.->|needs local mutation| SHELL
+  F2 -.->|needs internal throw| SHELL
+  F3 -.->|needs local concurrency| SHELL
+
+  classDef pure fill:#2dd4bf22,stroke:#2dd4bf,stroke-width:1.5px
+  classDef choke fill:#f8717133,stroke:#f87171,stroke-width:2px
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body" style="font-family:var(--font-mono);font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--default);margin:26px 0 10px">The masked model — effects handled where they arise</p>
+    <div class="diagram-shell">
+      <div class="mermaid-wrap">
+        <div class="zoom-controls">
+          <button type="button" data-zoom="out" title="Zoom out">−</button>
+          <button type="button" data-zoom="in" title="Zoom in">+</button>
+          <button type="button" data-zoom="reset" title="Reset">⤾</button>
+          <button type="button" data-zoom="expand" title="Open full size">⛶</button>
+        </div>
+        <div class="mermaid-viewport">
+          <div class="mermaid-canvas">
+            <pre class="mermaid">
+flowchart TD
+  SIG["fn sort : List → List<br/>effect row: EMPTY — pure"]:::pure
+  BODY["body: mutates a local array<br/>performs the state effect"]:::eff
+  HAND["a handler discharges state<br/>before the function returns"]:::handle
+
+  SIG --> BODY
+  BODY --> HAND
+  HAND --> SIG
+
+  classDef pure fill:#2dd4bf33,stroke:#2dd4bf,stroke-width:2px
+  classDef eff fill:#fbbf2433,stroke:#fbbf24,stroke-width:1.5px
+  classDef handle fill:#38bdf833,stroke:#38bdf8,stroke-width:2px
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:26px;margin-bottom:16px">The line to draw is between effects a handler can fully discharge without touching the world, and effects it can't:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:50%">Localizable — handle anywhere, shrinks back to pure</th><th style="width:50%">Ambient — boundary only</th></tr></thead>
+        <tbody>
+          <tr><td class="def">local mutable state</td><td class="ctl">real external I/O</td></tr>
+          <tr><td class="def">internal exceptions (throw and catch)</td><td class="ctl">wall-clock time</td></tr>
+          <tr><td class="def">local concurrency / dataflow</td><td class="ctl">global mutable state</td></tr>
+          <tr><td class="def">nondeterminism, seeded and handled</td><td class="ctl">foreign / FFI calls</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>The rule, reframed</h3>
+      <p>Purity means an <b>empty residual effect row after all handlers are applied</b> — not "no mutation happened." So the shell is a <b>role, not a location</b>: a function is shell exactly when its residual effects are non-empty, wherever it sits. "The core may not call the shell" becomes "the core may not <b>leak</b> effects outward" — it can freely use them inside.</p>
+    </div>
+
+    <div class="callout">
+      <h3>Why it never becomes a choke point</h3>
+      <p>Because handlers are <b>local and composable</b>, adding a new effectful algorithm never means routing it through <code>main</code> or threading state up the call chain. A new effect is a new row entry plus a handler — <b>not a new subsystem</b>. And the ambient boundary stays thin (only true I/O, time, and foreign calls), so it never accumulates into a bottleneck as the codebase grows.</p>
+    </div>
+
+    <div class="callout callout--warn">
+      <h3>One refinement to Edge A</h3>
+      <p>Masking sharpens the memory guarantee rather than weakening it: the promise becomes <b>"values that <i>escape</i> the pure world are DAGs"</b> — not "all values everywhere are acyclic." But the tempting next step, "so temporary local cycles are fine because they're uniquely owned," is <b>wrong</b> — a cycle is exactly the refcount-≥-2 case. It needs a scoped arena, which is Invariant 1 in Section 13.</p>
+    </div>
+  </section>
+
+  <!-- GUARANTEES -->
+  <section id="guarantees">
+    <div class="section-head">
+      <span class="section-num">13</span>
+      <div><h2>The invariants, and where they meet code</h2></div>
+    </div>
+    <p class="lead">Putting the whole language on one engine and local masking is elegant — but it stands or falls on two compiler invariants. Skip either, and the guarantees quietly break under real-world pressure.</p>
+
+    <h3 style="font-size:19px;margin:36px 0 10px;letter-spacing:-0.3px;font-weight:600">Invariant 1 · A local cycle is not "refcount 1"</h3>
+    <p class="body">The shortcut — "temporarily-cyclic local structures are fine because they're uniquely owned" — is wrong, and it's worth being blunt. A cycle <b>is</b> the refcount-≥-2 case: two local nodes pointing at each other each carry a count of at least one from the other. Drop the root and plain Perceus decrements 2 → 1 and <b>leaks the cycle</b>; return one of those nodes and the cycle <b>escapes into the pure world</b>, breaking the DAG guarantee outright.</p>
+    <p class="body">The fix uses the tool Axis 3 already has: tie every mutable or cyclic scratchpad to a <b>scoped arena with a phantom scope token</b> — the same idea as Haskell's <code>runST</code> or Koka's scoped heap effect. The scratch lives in the handler's arena, which is <b>bulk-freed the instant the handler discharges</b>, and the type checker enforces that only immutable, acyclic Default-lane values can cross the return boundary. Cycles stay local by construction; nothing leaks and nothing escapes.</p>
+
+    <h3 style="font-size:19px;margin:36px 0 10px;letter-spacing:-0.3px;font-weight:600">Invariant 2 · Not every handler is the same at runtime</h3>
+    <p class="body">If the engine carries local state, exceptions, concurrency, and nondeterminism through one mechanism, the compiler must <b>not</b> run them all through a general delimited-continuation handler — that would make <code>sort</code> orders of magnitude slower than C. Handlers have to be specialized by <b>resumption discipline</b>:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:22%">Resumption discipline</th><th style="width:36%">Examples</th><th>How it compiles</th></tr></thead>
+        <tbody>
+          <tr><td class="def">Tail-resumptive</td><td class="src">local state, config reads</td><td class="src">inlined into raw register/stack ops + Perceus in-place updates</td></tr>
+          <tr><td class="def">Single-shot</td><td class="src">internal exceptions, structured concurrency</td><td class="src">standard stack unwinding or a state machine</td></tr>
+          <tr><td class="ctl">Multi-shot</td><td class="src">seeded nondeterminism, logic search</td><td class="src">clone continuation frames — <b>Control lane only</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="body" style="margin-top:18px">The design rule that falls out: <b>the Default lane's local masking is restricted to tail-resumptive and single-shot effects</b>, so everyday code compiles to something as fast as hand-written imperative. Multi-shot — the expensive one — is opt-in in the Control lane, where logic and nondeterminism live.</p>
+
+    <h3 style="font-size:19px;margin:36px 0 10px;letter-spacing:-0.3px;font-weight:600">And the surface: implicit by default</h3>
+    <p class="body">Should <code>sort</code> need an explicit handler block to discharge its local state? No — that would re-create the annotation tax masking exists to remove. Instead, <b>every function body is an implicit handler boundary</b> for localizable effects: declare a local mutable variable, mutate it, and the compiler scopes and discharges it for you. Explicit <code>handle</code> blocks are reserved for custom effects, choosing a non-default handler, and multi-shot logic — the Control lane. It's the same principle as types: <b>automatic by default, explicit when you want control.</b></p>
+    <div class="code-file code-file--def" style="margin-top:16px">
+      <div class="code-file__header"><span class="d"></span>surface syntax · implicit handler boundary</div>
+      <pre class="code-file__body">fn sort(xs: List) -&gt; List =   <span class="cmt"># effect row: EMPTY — pure to the outside</span>
+  var a = xs.to_array()        <span class="cmt"># local state — scoped implicitly</span>
+  for i in 0..len(a):
+    swap(a, i, min_index(a, i))   <span class="cmt"># raw in-place mutation, inlined</span>
+  return a.to_list()           <span class="cmt"># only an immutable value escapes</span></pre>
+    </div>
+
+    <h3 style="font-size:19px;margin:34px 0 10px;letter-spacing:-0.3px;font-weight:600">Where they meet everyday code</h3>
+    <p class="body">Both details below are the same underlying fact — <strong>uniqueness and scope are tracked in the type</strong> — seen from two angles.</p>
+
+    <h3 style="font-size:19px;margin:36px 0 10px;letter-spacing:-0.3px;font-weight:600">Zero-copy freeze &amp; thaw across the boundary</h3>
+    <p class="body">If <code>to_array()</code> and <code>to_list()</code> had to copy all N elements at entry and exit just to satisfy "only immutable values cross the boundary," local mutation would lose half its point. But when the caller hands in a <b>uniquely-owned</b> collection (refcount 1) whose element type is <b>acyclic</b>, the compiler can <b>thaw</b> the immutable buffer in place, mutate it inside the implicit handler, and <b>freeze</b> it back on <code>return</code> — zero copying. Perceus and masking pull the trick off together.</p>
+    <p class="body">Two preconditions, not one: unique ownership (a shared input must copy or copy-on-write) and acyclicity — a <b>type attribute</b>, which is the very same "the compiler knows which types can form cycles" fact from Edge A, doing double duty. The scoped arena of Invariant 1 is only needed when local code builds <b>pointer-rich mutable graph nodes</b> that could actually close a loop.</p>
+
+    <h3 style="font-size:19px;margin:36px 0 10px;letter-spacing:-0.3px;font-weight:600">Closures that capture local <code>var</code> state</h3>
+    <p class="body">A helper closure inside <code>sort</code> — <code>items |&gt; map(fn x -&gt; count += 1; x * 2)</code> — is performing the outer function's local state effect. That's safe as long as it runs <b>inside</b> the implicit handler: synchronously, or inside a Default-lane structured-concurrency <code>scope</code> guaranteed to join before <code>sort</code> returns.</p>
+    <p class="body">It is <b>unsafe</b> the moment the closure is returned or handed to <code>@unscoped spawn</code> — the local <code>var</code> would outlive its handler. The phantom scope token from Invariant 1 catches this automatically: the closure's effect row carries the outer scope token, so the type checker <b>statically rejects</b> returning it or spawning it unscoped. No dangling stack references, by construction — the same trick as <code>runST</code>'s rank-2 region.</p>
+
+    <div class="callout">
+      <h3>The same fact, twice</h3>
+      <p>Zero-copy reuse and escape-prevention look like different optimizations, but they are one idea: <b>uniqueness and scope live in the type</b>. Because the compiler can see both, it can hand you the speed of in-place mutation <i>and</i> the safety of no-escape at the same time — which is exactly what makes the pure core both fast and trustworthy.</p>
+    </div>
+  </section>
+
+  <!-- DIRECT -->
+  <section id="direct">
+    <div class="section-head">
+      <span class="section-num">14</span>
+      <div><h2>The foreign boundary (FFI)</h2></div>
+    </div>
+    <p class="lead">SY reaches out of itself in exactly <strong>one place</strong>: the foreign boundary. It is a boundary, not a lane — foreign semantics never enter the coherent core; they stay quarantined at the edge.</p>
+    <div class="diagram-shell">
+      <div class="mermaid-wrap">
+        <div class="zoom-controls">
+          <button type="button" data-zoom="out" title="Zoom out">−</button>
+          <button type="button" data-zoom="in" title="Zoom in">+</button>
+          <button type="button" data-zoom="reset" title="Reset">⤾</button>
+          <button type="button" data-zoom="expand" title="Open full size">⛶</button>
+        </div>
+        <div class="mermaid-viewport">
+          <div class="mermaid-canvas">
+            <pre class="mermaid">
+flowchart TD
+  DEF["Default lane<br/>SY semantics"]:::def
+  CTL["Control lane<br/>SY semantics"]:::ctl
+  DIRECT["Foreign boundary<br/>FFI"]:::foreign
+  EXT["Python · Rust · C · ..."]:::alt
+
+  DEF --> DIRECT
+  CTL --> DIRECT
+  DIRECT -->|reaches out of SY| EXT
+
+  classDef def fill:#2dd4bf33,stroke:#2dd4bf,stroke-width:2px
+  classDef ctl fill:#fbbf2433,stroke:#fbbf24,stroke-width:2px
+  classDef foreign fill:#f8717133,stroke:#f87171,stroke-width:2px
+  classDef alt fill:#94a3b822,stroke:#94a3b8,stroke-width:1.5px
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="body" style="margin-top:24px;margin-bottom:16px">Why it isn't a third <i>expression</i> lane, and the rules that keep it safe:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:26%">Concern</th><th>What the foreign boundary does</th></tr></thead>
+        <tbody>
+          <tr><td><span class="lvl">Kind</span></td><td class="src">The two lanes express <b>SY</b> semantics; the foreign boundary imports <b>foreign</b> semantics. It is the one place that sits <b>outside the coherence rule</b> — the deliberate hole.</td></tr>
+          <tr><td><span class="lvl">Effects</span></td><td class="src">Every foreign call is an <b>ambient effect</b> — it cannot be masked. The spine tags it, so purity stays honest even when you call out.</td></tr>
+          <tr><td><span class="lvl">Types</span></td><td class="src">Foreign values cross through an <b>FFI type mapping</b> and arrive as opaque handles. The mapping is lossy at the edges — Python's dynamic types and Rust's lifetimes don't survive the crossing intact.</td></tr>
+          <tr><td><span class="lvl">Memory</span></td><td class="src">Foreign objects live under <b>their own model</b>; SY treats them as opaque handles — not DAGs, not refcounted by Perceus. The exact-RC guarantee <b>stops at the boundary</b>.</td></tr>
+          <tr><td><span class="lvl">What it is</span></td><td class="src">A <b>boundary, not a host</b>: you call foreign code, you don't run foreign semantics natively. SY becomes a language with interop, not a polyglot runtime.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <h3>Two lanes for expression; one door for foreign semantics</h3>
+      <p>The foreign boundary is not a way to <b>write</b> SY — it's a way to reach <b>out</b> of it. That distinction is why the design can add literal support without re-opening the kitchen-sink problem: the foreign semantics never leak <i>into</i> the coherent core; they stay quarantined at the edge.</p>
+    </div>
+    <div class="callout callout--warn">
+      <h3>The honest cost</h3>
+      <p>Everything the design guarantees is bought <i>inside</i> SY — purity, exact RC, the DAG property, masking. At the foreign boundary, <b>all of it stops</b>. That's acceptable because it's the same FFI edge §08 already admitted never fully closes; naming it as a boundary just stops pretending otherwise. And it's practical: every serious language has foreign interop, so refusing it would cost SY more than it buys.</p>
+    </div>
+  </section>
+
+  <!-- PROBLEMS -->
+  <section id="problems">
+    <div class="section-head">
+      <span class="section-num">15</span>
+      <div><h2>Open problems — what isn't solved yet</h2></div>
+    </div>
+    <p class="lead">A design that cannot name its own gaps is selling, not designing. Here is what SY does <strong>not</strong> yet answer.</p>
+    <div class="lvlgrid">
+      <div class="lvl-card" style="border-top-color:var(--warn)">
+        <div class="tag" style="color:var(--warn)">Adoption</div>
+        <h4>The real risk isn't the design</h4>
+        <p class="from">Every other problem here is smaller than this one.</p>
+        <div class="row d"><span class="k">Risk</span><span class="v">A language is adopted on ecosystem and inertia, not merit. Incumbents will absorb the same good ideas into Python, Rust, or Swift long before SY reaches critical mass. The <code>#lang</code> layer is the only lever that might outrun that.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Diagnostics</div>
+        <h4>Effect errors are transitive</h4>
+        <p class="from">The cost named in §11, still unsolved.</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">"Impure because of a call six axes down" is hard to explain well. Handlers give a natural place to anchor messages, but good effect diagnostics remain an open, research-grade problem.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Performance</div>
+        <h4>Handler specialization must actually deliver</h4>
+        <p class="from">Invariant 2 (§13), taken on faith until built.</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">The whole "fast pure core" claim rests on tail-resumptive and single-shot handlers compiling to raw operations. If specialization falls short, the default lane is slower than C and masking loses its point.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Axis 1</div>
+        <h4>The surface syntax is unspecified</h4>
+        <p class="from">The one axis a human actually touches.</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">Indentation rules, the surface grammar, and the surface-to-core desugaring table are not yet written. Until they are, SY is a semantics without a syntax.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Types</div>
+        <h4>Is acyclicity inferred or annotated?</h4>
+        <p class="from">Freeze/thaw (§13) depends on it.</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">Zero-copy thaw needs the compiler to know a type is acyclic. Whether that attribute is inferred, declared, or both is undecided — and it gates a key optimization.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Compiler</div>
+        <h4>Implicit handlers must be verified</h4>
+        <p class="from">The flip side of "implicit by default" (§13).</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">If every function body is an implicit handler boundary, the compiler must prove its local effects are tail-resumptive or single-shot. That obligation has to be discharged, not assumed.</span></div>
+      </div>
+      <div class="lvl-card" style="border-top-color:var(--warn)">
+        <div class="tag" style="color:var(--warn)">Framing</div>
+        <h4>Which principle is on top?</h4>
+        <p class="from">The coherence rule and the effect-spine are the same fact seen twice.</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">§10 says coherence binds the design; §11 says the effect-spine is the engine. They should be stated once as a single principle — and the FFI boundary stays an edge that never fully closes.</span></div>
+      </div>
+      <div class="lvl-card" style="border-top-color:var(--warn)">
+        <div class="tag" style="color:var(--warn)">Complexity</div>
+        <h4>The core is small; the compiler is not</h4>
+        <p class="from">"Small core" can undersell the real cost.</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">Seven AST forms hide a compiler doing HM + bidirectional checking + row-polymorphic effect inference + Perceus + scoped arenas + comptime refinements + handler specialization. The difficulty is concentrated in the compiler, not the surface — and that should be said plainly.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Effects</div>
+        <h4>Localizable vs ambient isn't always crisp</h4>
+        <p class="from">The masking line (§12) has grey areas.</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">Logging, caches and buffered output sit between the two — local enough to mask, ambient enough to matter. The design needs a principled rule for the middle, not just for the two ends.</span></div>
+      </div>
+      <div class="lvl-card">
+        <div class="tag">Structure</div>
+        <h4>Is "two lanes at every axis" too uniform?</h4>
+        <p class="from">Some axes may not have a real second option.</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">The rule is elegant, but does <i>syntax</i> really need a control lane? Forcing symmetry where no genuine second choice exists can manufacture complexity. The uniform rule may have to yield to "two lanes where a real alternative exists."</span></div>
+      </div>
+    </div>
+    <div class="callout callout--warn">
+      <h3>Why this section exists</h3>
+      <p>None of these sink the design — but a spec that reads cleanly and hides its soft spots is the most dangerous kind. <b>The gaps above are the difference between a design that reads well and one that ships.</b></p>
+    </div>
+  </section>
+
+
+
+    <footer>
+    <span>SY · a synthesis language · working title</span>
+    <span>4 ideas · 7 core forms · 1 engine · 2 edges · 1 boundary</span>
+  </footer>
+
+</div>
+
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  look: 'classic',
+  flowchart: { curve: 'basis', padding: 16, useMaxWidth: false },
+  themeVariables: {
+    primaryColor: isDark ? '#16223a' : '#e8f1fb',
+    primaryBorderColor: isDark ? '#38bdf8' : '#0369a1',
+    primaryTextColor: isDark ? '#e6edf3' : '#12203a',
+    lineColor: isDark ? '#64748b' : '#94a3b8',
+    fontSize: '15px',
+    fontFamily: 'IBM Plex Sans, system-ui, sans-serif'
+  }
+});
+</script>
+
+<script>
+(function(){
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  function openFull(canvas){
+    const svg = canvas.querySelector('svg');
+    if(!svg) return;
+    const clone = svg.cloneNode(true);
+    const rect = svg.getBoundingClientRect();
+    clone.setAttribute('width', rect.width);
+    clone.setAttribute('height', rect.height);
+    const w = window.open('', '_blank');
+    if(!w) return;
+    w.document.write(`<!DOCTYPE html><html><head><title>SY — diagram</title>
+      <style>body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:${isDark ? '#0a0f1a' : '#f4f7fb'};}
+      svg{max-width:96vw;max-height:96vh;}</style></head><body>${clone.outerHTML}</body></html>`);
+    w.document.close();
+  }
+
+  document.querySelectorAll('.diagram-shell').forEach(shell => {
+    const viewport = shell.querySelector('.mermaid-viewport');
+    const canvas = shell.querySelector('.mermaid-canvas');
+    if(!viewport || !canvas) return;
+
+    let scale = 1, tx = 0, ty = 0, dragging = false, startX = 0, startY = 0, moved = false;
+    const apply = () => { canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`; };
+    const zoom = f => { scale = Math.min(3, Math.max(0.4, scale * f)); apply(); };
+    const reset = () => { scale = 1; tx = 0; ty = 0; apply(); };
+
+    shell.querySelectorAll('.zoom-controls button').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const a = btn.dataset.zoom;
+        if(a === 'in') zoom(1.2);
+        else if(a === 'out') zoom(1/1.2);
+        else if(a === 'reset') reset();
+        else if(a === 'expand') openFull(canvas);
+      });
+    });
+
+    viewport.addEventListener('wheel', e => {
+      if(e.ctrlKey || e.metaKey){ e.preventDefault(); zoom(e.deltaY < 0 ? 1.1 : 1/1.1); }
+    }, { passive: false });
+
+    viewport.addEventListener('mousedown', e => {
+      dragging = true; moved = false; startX = e.clientX - tx; startY = e.clientY - ty;
+      viewport.classList.add('dragging');
+    });
+    window.addEventListener('mousemove', e => {
+      if(!dragging) return;
+      moved = true; tx = e.clientX - startX; ty = e.clientY - startY; apply();
+    });
+    window.addEventListener('mouseup', () => { dragging = false; viewport.classList.remove('dragging'); });
+    viewport.addEventListener('click', () => { if(!moved) openFull(canvas); });
+  });
+})();
+</script>
+</body>
+</html>
