@@ -1,0 +1,11 @@
+opam-version: "2.0"
+name: "sy"
+version: "0.1.0"
+synopsis: "SY: a strict, effect-typed synthesis language (Milestone 1 reference implementation)"
+maintainer: "Its-Mythical"
+authors: ["Its-Mythical"]
+depends: [
+  "ocaml" {>= "4.14"}
+  "dune" {>= "3.0"}
+]
+build: ["dune" "build" "-p" name "-j" jobs]

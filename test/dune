@@ -1,0 +1,7 @@
+(test
+ (name test_sy)
+ (libraries sy)
+ (deps
+  (glob_files ../examples/*))
+ (action
+  (run %{test} ../examples)))

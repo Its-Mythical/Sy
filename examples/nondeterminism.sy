@@ -1,0 +1,24 @@
+;; Multi-shot handlers (§13, Invariant 2): the resumption `k` is called twice,
+;; so one computation explores both branches.  This is the Control-lane case.
+(effect amb
+  (flip () Bool))
+
+(def all-results
+  (fn (thunk)
+    (handle (thunk)
+      (flip (k) (append (k True) (k False)))
+      (return (x) (Cons x Nil)))))
+
+(def pick
+  (fn (a b) (if (flip) a b)))
+
+;; every combination of two coin flips
+(def combos
+  (fn ()
+    (+ (pick 10 20) (pick 1 2))))
+
+(println (show-list (all-results combos)))
+
+;; pythagorean-style search by backtracking
+(def small (fn () (+ (pick 1 2) (+ (pick 3 4) (pick 5 6)))))
+(println (show-list (all-results small)))

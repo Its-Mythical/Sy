@@ -1,0 +1,4 @@
+ok: 42
+error: division by zero
+before
+error: boom

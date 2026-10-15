@@ -1,0 +1,21 @@
+;; Basics: strict core, data, pattern matching, first-class constructors.
+(println "hello, SY")
+
+(def double (fn (x) (* x 2)))
+(println (int->str (double 21)))
+
+(data Shape (Circle Int) (Rect Int Int))
+
+(def area
+  (fn (s)
+    (case s
+      ((Circle r) (* 3 (* r r)))      ; integer "pi" keeps M1 simple
+      ((Rect w h) (* w h)))))
+
+(println (int->str (area (Rect 6 7))))
+
+;; constructors are ordinary values: Cons is just a function
+(def xs (map double (range 1 6)))
+(println (show-list xs))
+(println (int->str (sum xs)))
+(show-list (reverse xs))
