@@ -1094,9 +1094,9 @@ flowchart TD
       </div>
       <div class="lvl-card">
         <div class="tag">Axis 1</div>
-        <h4>The surface syntax is unspecified</h4>
-        <p class="from">The one axis a human actually touches.</p>
-        <div class="row d"><span class="k">Gap</span><span class="v">Indentation rules, the surface grammar, and the surface-to-core desugaring table are not yet written. Until they are, SY is a semantics without a syntax.</span></div>
+        <h4>The surface exists, but isn't specified</h4>
+        <p class="from">A first surface is built; the formal grammar is not.</p>
+        <div class="row d"><span class="k">Gap</span><span class="v">A working surface now exists (see the SY implementation), which closes the "no syntax" problem <i>by example</i>. What remains is the <b>spec</b>: a formal grammar, the surface-to-core desugaring table, and a decision on <b>indentation vs braces</b> — the implementation chose braces, the design claimed indentation, and that fork is still unresolved.</span></div>
       </div>
       <div class="lvl-card">
         <div class="tag">Types</div>
@@ -1109,6 +1109,12 @@ flowchart TD
         <h4>Implicit handlers must be verified</h4>
         <p class="from">The flip side of "implicit by default" (§13).</p>
         <div class="row d"><span class="k">Gap</span><span class="v">If every function body is an implicit handler boundary, the compiler must prove its local effects are tail-resumptive or single-shot. That obligation has to be discharged, not assumed.</span></div>
+      </div>
+      <div class="lvl-card" style="border-top-color:var(--warn)">
+        <div class="tag" style="color:var(--warn)">Implementation</div>
+        <h4>Which language is the compiler written in?</h4>
+        <p class="from">Undecided — and it shapes the whole build.</p>
+        <div class="row d"><span class="k">Proposal</span><span class="v">The compiler needs <b>algebraic data types and pattern matching</b> (front/middle-end) plus <b>precise, GC-free memory control and C-ABI FFI</b> (runtime and backend). So: <b>OCaml</b> for the front/middle-end and <b>Rust</b> (or Zig) for the runtime, with <b>self-hosting</b> — porting the compiler to SY itself — as the target. The current prototype is Python: right for reading, wrong for shipping.</span></div>
       </div>
       <div class="lvl-card" style="border-top-color:var(--warn)">
         <div class="tag" style="color:var(--warn)">Framing</div>

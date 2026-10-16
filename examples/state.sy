@@ -1,28 +1,25 @@
-;; One effect mechanism (§11): mutable state as an effect + a handler.
-(effect state
-  (get () Int)
-  (put (Int) Unit))
+# One effect mechanism: mutable state as an effect + a handler.
+effect state
+  get() -> Int
+  put(Int) -> Unit
 
-;; run-state is a handler: it threads the state through the resumption.
-(def run-state
-  (fn (init thunk)
-    ((handle (thunk)
-       (get (k)     (fn (s) ((k s) s)))
-       (put (s2 k)  (fn (s) ((k Unit) s2)))
-       (return (x)  (fn (s) x)))
-     init)))
+# run_state is a handler: it threads the state through the resumption.
+fn run_state(init, thunk) =
+  let h = handle thunk()
+    get(k) -> fn s -> k(s)(s)
+    put(s2, k) -> fn s -> k(Unit)(s2)
+    return(x) -> fn s -> x
+  h(init)
 
-(defrec count-down
-  (fn (n)
-    (if (<= n 0)
-        (get)
-        (do (put (+ (get) n))
-            (count-down (- n 1))))))
+fn count_down(n) =
+  if n <= 0 then get()
+  else
+    put(get() + n)
+    count_down(n - 1)
 
-;; `sum-to` is PURE to the outside (§12 local effect masking): it uses
-;; `state` internally, but the handler discharges it before returning.
-(def sum-to
-  (fn (n) (run-state 0 (fn () (count-down n)))))
+# `sum_to` is PURE to the outside (local effect masking): it uses `state`
+# internally, but the handler discharges it before returning.
+fn sum_to(n) = run_state(0, fn () -> count_down(n))
 
-(println (int->str (sum-to 10)))
-(println (int->str (sum-to 100)))
+println(int_to_str(sum_to(10)))
+println(int_to_str(sum_to(100)))

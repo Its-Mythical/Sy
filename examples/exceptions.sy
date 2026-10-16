@@ -1,24 +1,23 @@
-;; Errors are not a separate subsystem: `throw` is an effect like any other.
-(def safe-div
-  (fn (a b)
-    (if (== b 0)
-        (throw "division by zero")
-        (/ a b))))
+# Errors are not a separate subsystem: `throw` is an effect like any other.
+fn safe_div(a, b) =
+  if b == 0 then throw("division by zero") else a / b
 
-(def show-result
-  (fn (r)
-    (case r
-      ((Ok n)  (++ "ok: " (int->str n)))
-      ((Err m) (++ "error: " m)))))
+fn show_result(r) =
+  match r
+    Ok(n) -> "ok: " ++ int_to_str(n)
+    Err(m) -> "error: " ++ m
 
-(println (show-result (catch (fn () (safe-div 84 2)))))
-(println (show-result (catch (fn () (safe-div 1 0)))))
+println(show_result(catch(fn () -> safe_div(84, 2))))
+println(show_result(catch(fn () -> safe_div(1, 0))))
 
-;; the exception short-circuits: the second println never runs
-(def noisy
-  (fn ()
-    (do (println "before")
-        (throw "boom")
-        (println "after"))))
+# the exception short-circuits: the second println never runs
+fn noisy() =
+  println("before")
+  throw("boom")
+  println("after")
 
-(println (show-result (catch (fn () (do (noisy) 0)))))
+fn attempt() =
+  noisy()
+  0
+
+println(show_result(catch(attempt)))

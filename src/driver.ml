@@ -7,6 +7,13 @@ exception Sy_error of Sexp.pos * string
 
 type mode = Run | Check
 
+(* Two readers, one core: the indentation surface (.sy) and the uniform
+   S-expression core form (.sx). *)
+type syntax = Surface | Sexpr
+
+let parse_program syntax src =
+  match syntax with Surface -> Surface.program src | Sexpr -> Parse.program src
+
 type session = {
   ctx : Infer.ctx;
   mutable venv : Eval.env;
@@ -104,9 +111,9 @@ let make_session ?(out = print_string) () : session =
 
    Run mode is two-phase: the *entire* program is type- and effect-checked
    first, so a type error anywhere means nothing runs and nothing is printed. *)
-let run_source s ~mode (src : string) : unit =
+let run_source ?(syntax = Sexpr) s ~mode (src : string) : unit =
   let prog =
-    try Parse.program src
+    try parse_program syntax src
     with Sexp.Syntax_error (p, m) -> raise (Sy_error (p, "syntax error: " ^ m))
   in
   let checked =
